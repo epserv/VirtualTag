@@ -2,6 +2,7 @@ package me.rerere.virtualtag.configuration.files
 
 import me.rerere.virtualtag.configuration.ConfigFile
 import me.rerere.virtualtag.tag.TagGroup
+import net.kyori.adventure.text.minimessage.MiniMessage
 
 class MainConfig : ConfigFile("config.yml") {
     val updateInterval = int("general.update_interval", 20).coerceAtLeast(1)
@@ -12,14 +13,14 @@ class MainConfig : ConfigFile("config.yml") {
             val name = it
             val permission = groupSection.getString("permission", "")
             val priority = groupSection.getInt("priority", 0)
-            val prefix = groupSection.getString("prefix", "")
-            val suffix = groupSection.getString("suffix", "")
+            val prefix = MiniMessage.miniMessage().deserialize(groupSection.getString("prefix", "")!!)
+            val suffix = MiniMessage.miniMessage().deserialize(groupSection.getString("suffix", "")!!)
             TagGroup(
                 name = name,
                 permission = permission!!,
                 priority = priority,
-                prefix = prefix!!,
-                suffix = suffix!!
+                prefix = prefix,
+                suffix = suffix
             )
         }
     } ?: error("Please add `groups` section into config.yml!")

@@ -1,7 +1,6 @@
 package me.rerere.virtualtag.tag
 
 import me.rerere.virtualtag.api.Tag
-import me.rerere.virtualtag.virtualTag
 import org.bukkit.entity.Player
 
 class VirtualTagHandler {
@@ -20,14 +19,15 @@ class VirtualTagHandler {
     }
 
     fun setPlayerTag(player: Player, tag: Tag) {
-        player.setPlayerListName(null)
+        player.playerListName(null)
 
         val oldTeam = this.getPlayerCurrentTeam(player)
         oldTeam?.takeIf { it.tag != tag }?.removePlayer(player.name)
         val team = this.getVirtualTeamByTag(tag) ?: VirtualTeam(
             name = this.generateTeamName(),
             prefix = tag.prefix,
-            suffix = tag.suffix
+            suffix = tag.suffix,
+            color = tag.color
         )
         team.recreate()
         team.addPlayer(player.name)
@@ -49,7 +49,8 @@ class VirtualTagHandler {
     }?.let {
         Tag(
             it.prefix,
-            it.suffix
+            it.suffix,
+            it.color,
         )
     }
 

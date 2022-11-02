@@ -2,9 +2,11 @@ package me.rerere.virtualtag.tag.team.impl
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.wrappers.WrappedChatComponent
+import io.papermc.paper.adventure.PaperAdventure
 import me.rerere.virtualtag.tag.VirtualTeam
 import me.rerere.virtualtag.tag.team.TeamPacketSender
 import me.rerere.virtualtag.util.*
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -27,9 +29,9 @@ class TeamPacketSenderImpl17 : TeamPacketSender {
                         // DisplayName
                         writeSafely(0, WrappedChatComponent.fromText(name))
                         // Prefix
-                        writeSafely(1, WrappedChatComponent.fromChatMessage(prefix)[0])
+                        writeSafely(1, prefix.toWrappedChatComponent())
                         // Suffix
-                        writeSafely(2, WrappedChatComponent.fromChatMessage(suffix)[0])
+                        writeSafely(2, suffix.toWrappedChatComponent())
                     }
                     strings.apply {
                         writeSafely(0, "always")
@@ -38,7 +40,7 @@ class TeamPacketSenderImpl17 : TeamPacketSender {
                     // color
                     getSpecificModifier(ChatFormatConverter.chatFormatClass).writeSafely(
                         0,
-                        lastChatColor(prefix).toNmsChatFormat()
+                        color.toNmsChatFormat()
                     )
                     // friendly tags
                     integers.writeSafely(0, 0x0)
@@ -65,9 +67,9 @@ class TeamPacketSenderImpl17 : TeamPacketSender {
                         // DisplayName
                         writeSafely(0, WrappedChatComponent.fromChatMessage(name)[0])
                         // Prefix
-                        writeSafely(1, WrappedChatComponent.fromChatMessage(prefix)[0])
+                        writeSafely(1, prefix.toWrappedChatComponent())
                         // Suffix
-                        writeSafely(2, WrappedChatComponent.fromChatMessage(suffix)[0])
+                        writeSafely(2, suffix.toWrappedChatComponent())
                     }
                     strings.apply {
                         writeSafely(0, "always")
@@ -76,7 +78,7 @@ class TeamPacketSenderImpl17 : TeamPacketSender {
                     // color
                     getSpecificModifier(ChatFormatConverter.chatFormatClass).writeSafely(
                         0,
-                        lastChatColor(prefix).toNmsChatFormat()
+                        color.toNmsChatFormat()
                     )
                     // friendly tags
                     integers.writeSafely(0, 0x0)
@@ -115,5 +117,10 @@ class TeamPacketSenderImpl17 : TeamPacketSender {
                 optionalStructures.writeSafely(0, Optional.empty())
             }.broadcast()
         }
+    }
+
+    fun Component.toWrappedChatComponent(): WrappedChatComponent {
+        val vanilla = PaperAdventure.asVanilla(this)
+        return WrappedChatComponent.fromHandle(vanilla)
     }
 }

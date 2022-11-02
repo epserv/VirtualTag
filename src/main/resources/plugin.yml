@@ -1,5 +1,5 @@
 name: VirtualTag
-version: @VERSION@
+version: '${version}'
 main: me.rerere.virtualtag.VirtualTag
 author: RE
 depend:

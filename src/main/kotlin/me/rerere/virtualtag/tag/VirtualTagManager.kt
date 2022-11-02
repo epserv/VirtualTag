@@ -1,11 +1,17 @@
 package me.rerere.virtualtag.tag
 
 import me.rerere.virtualtag.api.Tag
-import me.rerere.virtualtag.api.colorful
 import me.rerere.virtualtag.hook.applyPlaceholderAPI
 import me.rerere.virtualtag.util.allPlayers
+import me.rerere.virtualtag.util.lastChatColor
 import me.rerere.virtualtag.util.timerTask
+import me.rerere.virtualtag.util.toNamedTextColor
 import me.rerere.virtualtag.virtualTag
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.JoinConfiguration
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -32,7 +38,7 @@ class VirtualTagManager {
             .filter {
                 it.permission.isBlank() || player.isOp || player.hasPermission(it.permission)
             }
-            .sortedByDescending { it.priority }
+            .sortedByDescending(TagGroup::priority)
             .let {
                 if (mainConfig.multipleNameTags) {
                     it
@@ -40,12 +46,13 @@ class VirtualTagManager {
                     listOf(it.firstOrNull())
                 }
             }
+        val prefix = Component.join(JoinConfiguration.noSeparators(), matchedTags.map { it?.prefix ?: Component.empty() })
         val targetTag = Tag(
-            prefix = matchedTags.joinToString(separator = "") { it?.prefix ?: "" },
-            suffix = matchedTags.joinToString(separator = "") { it?.suffix ?: "" }
+            prefix = prefix,
+            suffix = Component.join(JoinConfiguration.noSeparators(), matchedTags.map { it?.suffix ?: Component.empty() }),
+            color = lastChatColor(LegacyComponentSerializer.legacySection().serialize(prefix))
         ).apply {
             applyPlaceholderAPI(player)
-            colorful()
         }
         val previousTag = previousTagCache[player.uniqueId]
 

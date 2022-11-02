@@ -3,10 +3,7 @@ package me.rerere.virtualtag.tag.team.impl
 import com.comphenix.protocol.PacketType
 import me.rerere.virtualtag.tag.VirtualTeam
 import me.rerere.virtualtag.tag.team.TeamPacketSender
-import me.rerere.virtualtag.util.broadcast
-import me.rerere.virtualtag.util.createPacket
-import me.rerere.virtualtag.util.lastChatColor
-import me.rerere.virtualtag.util.send
+import me.rerere.virtualtag.util.*
 import org.bukkit.entity.Player
 
 class TeamPacketSenderImpl8 : TeamPacketSender {
@@ -15,7 +12,7 @@ class TeamPacketSenderImpl8 : TeamPacketSender {
             createPacket(PacketType.Play.Server.SCOREBOARD_TEAM) {
                 // team mode
                 integers.apply {
-                    writeSafely(0,  lastChatColor(prefix).ordinal)
+                    writeSafely(0,  color.ordinal)
                     writeSafely(1, 0)
                     writeSafely(2, 0)
                 }
@@ -27,8 +24,8 @@ class TeamPacketSenderImpl8 : TeamPacketSender {
                 strings.apply {
                     writeSafely(0, name)
                     writeSafely(1, name)
-                    writeSafely(2, prefix.take(16))
-                    writeSafely(3, suffix.take(16))
+                    writeSafely(2, prefix.toLegacyString().take(16))
+                    writeSafely(3, suffix.toLegacyString().take(16))
                     writeSafely(4,"always")
                 }
             }.broadcast()
@@ -40,7 +37,7 @@ class TeamPacketSenderImpl8 : TeamPacketSender {
             createPacket(PacketType.Play.Server.SCOREBOARD_TEAM) {
                 // team mode
                 integers.apply {
-                    writeSafely(0,  lastChatColor(prefix).ordinal)
+                    writeSafely(0,  color.ordinal)
                     writeSafely(1, 0)
                     writeSafely(2, 0)
                 }
@@ -52,8 +49,8 @@ class TeamPacketSenderImpl8 : TeamPacketSender {
                 strings.apply {
                     writeSafely(0, name)
                     writeSafely(1, name)
-                    writeSafely(2, prefix.take(16))
-                    writeSafely(3, suffix.take(16))
+                    writeSafely(2, prefix.toLegacyString().take(16))
+                    writeSafely(3, suffix.toLegacyString().take(16))
                     writeSafely(4,"always")
                 }
             }.send(player)

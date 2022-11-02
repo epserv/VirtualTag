@@ -1,13 +1,10 @@
 package me.rerere.virtualtag.api
 
-import me.rerere.virtualtag.util.coloring
+import net.kyori.adventure.text.Component
+import org.bukkit.ChatColor
 
 data class Tag(
-    var prefix: String,
-    var suffix: String
+    var prefix: Component,
+    var suffix: Component,
+    var color: ChatColor,
 )
-
-fun Tag.colorful() {
-    prefix = prefix.coloring()
-    suffix = suffix.coloring()
-}

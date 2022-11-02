@@ -2,17 +2,21 @@ package me.rerere.virtualtag.tag
 
 import me.rerere.virtualtag.api.Tag
 import me.rerere.virtualtag.tag.team.teamPacketSender
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 class VirtualTeam(
     val name: String,
-    val prefix: String,
-    val suffix: String
+    val prefix: Component,
+    val suffix: Component,
+    val color: ChatColor,
 ) {
     val players: MutableSet<String> = hashSetOf()
 
     val tag: Tag
-        get() = Tag(prefix, suffix)
+        get() = Tag(prefix, suffix, color)
 
     fun recreate() {
         destroy()

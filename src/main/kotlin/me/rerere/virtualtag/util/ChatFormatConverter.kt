@@ -1,6 +1,9 @@
 package me.rerere.virtualtag.util
 
 import com.comphenix.protocol.utility.MinecraftReflection
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.ChatColor
 
 object ChatFormatConverter {
@@ -23,3 +26,9 @@ fun lastChatColor(text: String) : ChatColor {
     }
     return ChatColor.RESET
 }
+
+fun ChatColor.toNamedTextColor(): NamedTextColor? = NamedTextColor.NAMES.value(this.name)
+
+fun NamedTextColor?.toChatColor(): ChatColor = if (this == null) ChatColor.RESET else ChatColor.valueOf(this.toString().uppercase())
+
+fun Component.toLegacyString(): String = LegacyComponentSerializer.legacySection().serialize(this)
