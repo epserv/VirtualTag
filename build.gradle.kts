@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("com.github.johnrengelman.shadow") version "6.1.0"
     kotlin("jvm") version "1.5.31"
+    `maven-publish`
 }
 
 group = "me.rerere"
@@ -72,5 +73,11 @@ tasks {
 
     build {
         dependsOn(shadowJar)
+    }
+}
+
+configure<PublishingExtension> {
+    publications.create<MavenPublication>("maven") {
+        from(components["java"])
     }
 }
