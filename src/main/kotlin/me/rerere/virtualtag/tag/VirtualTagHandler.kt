@@ -6,19 +6,11 @@ import org.bukkit.entity.Player
 
 class VirtualTagHandler {
     val virtualTeams = hashSetOf<VirtualTeam>()
+    private var nextTeamId = 0L
 
     // Generate a unique team name
     private fun generateTeamName(): String {
-        repeat(2000) { id ->
-            val name = "virtualteam_$id"
-            if (!virtualTeams.any { it.name == name }) {
-                return name
-            }
-        }
-        // WTF?
-        return "vt_error".also {
-            virtualTag().logger.warning("Can't generate a new virtual team name!")
-        }
+        return "virtualteam_${nextTeamId++}"
     }
 
     fun sendCurrentNameTags(player: Player) {
