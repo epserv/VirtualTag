@@ -1,8 +1,6 @@
 package me.rerere.virtualtag.hook
 
 import me.clip.placeholderapi.PlaceholderAPI
-import me.clip.placeholderapi.replacer.CharsReplacer
-import me.clip.placeholderapi.replacer.Replacer
 import me.rerere.virtualtag.api.Tag
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
@@ -12,8 +10,6 @@ import org.bukkit.entity.Player
 
 object PlaceholderAPIHook {
     val enable = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null
-
-    val replacerPercent: Replacer = CharsReplacer(Replacer.Closure.PERCENT)
 
     fun applyPlaceholder(player: Player, text: Component): Component {
         return when (text) {
