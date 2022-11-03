@@ -2,6 +2,7 @@ name: VirtualTag
 version: '${version}'
 main: me.rerere.virtualtag.VirtualTag
 author: RE
+api-version: 1.17
 depend:
   - ProtocolLib
 softdepend:
